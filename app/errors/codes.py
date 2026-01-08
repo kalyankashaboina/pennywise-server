@@ -1,0 +1,9 @@
+from enum import Enum
+
+
+class ErrorCode(str, Enum):
+    INTERNAL_ERROR = "INTERNAL_ERROR"
+    VALIDATION_ERROR = "VALIDATION_ERROR"
+    UNAUTHORIZED = "UNAUTHORIZED"
+    FORBIDDEN = "FORBIDDEN"
+    NOT_FOUND = "NOT_FOUND"

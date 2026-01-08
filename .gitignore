@@ -1,0 +1,98 @@
+# ===============================
+# Python / Virtual Environments
+# ===============================
+.venv/
+venv/
+env/
+ENV/
+
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# ===============================
+# Environment variables / secrets
+# ===============================
+.env
+.env.*
+!.env.example
+
+# ===============================
+# IDE / Editor
+# ===============================
+.vscode/
+.idea/
+*.iml
+
+# ===============================
+# OS / System files
+# ===============================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===============================
+# Logs
+# ===============================
+*.log
+logs/
+*.jsonl
+
+# ===============================
+# Test & coverage
+# ===============================
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# ===============================
+# Build / distribution
+# ===============================
+build/
+dist/
+*.egg-info/
+
+# ===============================
+# PDF / Report outputs
+# ===============================
+reports/
+exports/
+*.pdf
+
+# ===============================
+# Uploads / temp files
+# ===============================
+uploads/
+tmp/
+temp/
+*.tmp
+
+# ===============================
+# Background task artifacts
+# ===============================
+celerybeat-schedule
+celerybeat.pid
+
+# ===============================
+# MongoDB local data (if any)
+# ===============================
+data/
+dump/
+
+# ===============================
+# Ruff / Linters
+# ===============================
+.ruff_cache/
+.mypy_cache/
+
+# ===============================
+# Node (if FE added later)
+# ===============================
+node_modules/
+
+# ===============================
+# Runtime cache
+# ===============================
+.cache/

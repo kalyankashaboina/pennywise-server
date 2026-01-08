@@ -1,0 +1,47 @@
+# -----------------------------
+# Core framework
+# -----------------------------
+fastapi==0.110.0
+uvicorn[standard]==0.27.1
+
+# -----------------------------
+# Settings & validation
+# -----------------------------
+pydantic==2.6.1
+pydantic-settings==2.2.1
+email-validator==2.1.0.post1
+
+# -----------------------------
+# MongoDB (async)
+# -----------------------------
+motor==3.3.2
+pymongo==4.6.1
+
+# -----------------------------
+# Authentication & security
+# -----------------------------
+python-jose==3.3.0
+passlib[bcrypt]==1.7.4
+bcrypt==4.1.2
+
+# -----------------------------
+# Logging & utilities
+# -----------------------------
+python-json-logger==2.0.7
+
+# -----------------------------
+# PDF handling (Playwright instead of WeasyPrint)
+# -----------------------------
+pypdf==4.0.1
+playwright==1.41.1
+
+# -----------------------------
+# Background tasks / scheduling
+# -----------------------------
+apscheduler==3.10.4
+
+# -----------------------------
+# Development & testing
+# -----------------------------
+pytest==8.0.0
+httpx==0.26.0
