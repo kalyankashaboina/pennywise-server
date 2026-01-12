@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Depends, BackgroundTasks
+from fastapi import APIRouter, BackgroundTasks, Depends
+
 from app.dependencies.auth import get_current_user
 from app.tasks.report_tasks import ReportTasks
 

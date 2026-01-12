@@ -7,6 +7,7 @@ from app.errors.base import AppError
 from app.errors.codes import ErrorCode
 from app.responses.error import error_response
 
+
 # Custom handler to show missing fields and other validation errors
 async def validation_error_handler(request: Request, exc: RequestValidationError):
     # Extract the errors
@@ -40,12 +41,10 @@ async def validation_error_handler(request: Request, exc: RequestValidationError
         status_code=422,
         content={
             "success": False,
-            "error": {
-                "code": ErrorCode.VALIDATION_ERROR,
-                "message": message
-            }
-        }
+            "error": {"code": ErrorCode.VALIDATION_ERROR, "message": message},
+        },
     )
+
 
 def register_exception_handlers(app: FastAPI) -> None:
     # -----------------------------

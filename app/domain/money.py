@@ -1,5 +1,6 @@
 # app/domain/money.py
 
+
 def format_currency(amount: float, currency_symbol: str = "$") -> str:
     """
     Format a number as a currency string.

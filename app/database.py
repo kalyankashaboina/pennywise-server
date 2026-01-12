@@ -94,9 +94,7 @@ async def create_indexes() -> None:
         logger.info(f"Index '{name}' created successfully.")
 
     # ---------------- USERS ----------------
-    await safe_create_index(
-        db.users, [("email", 1)], "uniq_users_email", unique=True
-    )
+    await safe_create_index(db.users, [("email", 1)], "uniq_users_email", unique=True)
     await safe_create_index(
         db.users, [("username", 1)], "uniq_users_username", unique=True
     )
@@ -116,8 +114,6 @@ async def create_indexes() -> None:
     # ---------------- AUDIT LOGS ----------------
     await safe_create_index(db.audit_logs, [("user_id", 1)], "idx_audit_user")
     await safe_create_index(db.audit_logs, [("action", 1)], "idx_audit_action")
-    await safe_create_index(
-        db.audit_logs, [("created_at", -1)], "idx_audit_created_at"
-    )
+    await safe_create_index(db.audit_logs, [("created_at", -1)], "idx_audit_created_at")
 
     logger.info("MongoDB indexes ready")

@@ -1,19 +1,16 @@
 import logging
-from fastapi import FastAPI, APIRouter, Request
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse
 
-from app.settings import settings
+from fastapi import APIRouter, FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
 from app.api.router import api_router
+from app.database import close_database_connection, connect_to_database
 from app.errors.handlers import register_exception_handlers
-from app.middleware.request_id import request_id_middleware
 from app.middleware.logging import logging_middleware
+from app.middleware.request_id import request_id_middleware
 from app.middleware.timing import timing_middleware
 from app.responses.success import success_response
-from app.database import connect_to_database, close_database_connection
-
-from typing import List
+from app.settings import settings
 
 logger = logging.getLogger("pennywise")
 
@@ -21,8 +18,7 @@ logger = logging.getLogger("pennywise")
 # Create a logger
 logger = logging.getLogger("pennywise")
 logger.setLevel(logging.INFO)
-# Optionally, you can set up a StreamHandler or FileHandler depending on where you want the logs to go
-
+# Optionally, configure a StreamHandler or FileHandler for logs
 
 
 def create_app() -> FastAPI:
@@ -31,7 +27,7 @@ def create_app() -> FastAPI:
         version="1.0.0",
         docs_url="/docs" if settings.ENV != "production" else None,
         redoc_url="/redoc" if settings.ENV != "production" else None,
-        openapi_url="/openapi.json" if settings.ENV != "production" else None,
+        openapi_url=("/openapi.json" if settings.ENV != "production" else None),
     )
 
     # -------------------------------------------------
@@ -109,5 +105,6 @@ async def api_health():
             "api": "ok",
         }
     )
+
 
 app.include_router(health_router)

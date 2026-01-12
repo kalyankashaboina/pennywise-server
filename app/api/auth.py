@@ -1,14 +1,14 @@
-from fastapi import APIRouter, Response, Depends, Request, status
+from fastapi import APIRouter, Depends, Request, Response, status
 
-from app.services.auth_service import AuthService
+from app.dependencies.auth import get_current_user
 from app.schemas.auth import (
-    RegisterRequest,
-    LoginRequest,
     ForgotPasswordRequest,
+    LoginRequest,
+    RegisterRequest,
     ResetPasswordRequest,
 )
-from app.security import set_auth_cookies, clear_auth_cookies
-from app.dependencies.auth import get_current_user
+from app.security import clear_auth_cookies, set_auth_cookies
+from app.services.auth_service import AuthService
 from app.utils.logger import get_logger
 
 logger = get_logger("pennywise.api.auth")
@@ -77,9 +77,7 @@ async def login(payload: LoginRequest, response: Response, request: Request):
 # -------------------------------------------------
 @router.post("/refresh")
 async def refresh(response: Response, request: Request):
-    access_token, refresh_token = await auth_service.refresh_tokens(
-        request.cookies
-    )
+    access_token, refresh_token = await auth_service.refresh_tokens(request.cookies)
 
     set_auth_cookies(response, access_token, refresh_token)
 
@@ -165,5 +163,3 @@ async def reset_password(payload: ResetPasswordRequest, request: Request):
         "success": True,
         "message": "Password reset successful",
     }
-
-

@@ -1,5 +1,6 @@
-from typing import Optional
 from datetime import datetime
+from typing import Optional
+
 from bson import ObjectId
 
 from app.database import get_database

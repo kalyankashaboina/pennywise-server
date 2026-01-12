@@ -1,19 +1,20 @@
 from datetime import datetime, timedelta
-from jose import JWTError, jwt
 from typing import Optional
 
-from app.repositories.user_repo import UserRepository
-from app.services.audit_service import AuditService
-from app.security import (
-    hash_password,
-    verify_password,
-    create_access_token,
-    generate_reset_token,
-    hash_token,
-)
-from app.settings import settings
+from jose import JWTError, jwt
+
 from app.errors.base import AppError
 from app.errors.codes import ErrorCode
+from app.repositories.user_repo import UserRepository
+from app.security import (
+    create_access_token,
+    generate_reset_token,
+    hash_password,
+    hash_token,
+    verify_password,
+)
+from app.services.audit_service import AuditService
+from app.settings import settings
 from app.utils.logger import get_logger
 
 logger = get_logger("pennywise.auth")
@@ -131,12 +132,12 @@ class AuthService:
             user_id = payload.get("sub")
             if not user_id:
                 raise JWTError()
-        except JWTError:
+        except JWTError as e:
             raise AppError(
                 code=ErrorCode.UNAUTHORIZED,
                 message="Invalid refresh token",
                 status_code=401,
-            )
+            ) from e
 
         user = await self.user_repo.get_by_id(user_id)
         if not user:

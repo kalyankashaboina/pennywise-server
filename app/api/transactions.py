@@ -1,16 +1,16 @@
 from datetime import datetime
 from typing import Optional
 
-from fastapi import APIRouter, Depends, Query, Request, status, Path
+from fastapi import APIRouter, Depends, Path, Query, Request, status
 
-from app.services.transaction_service import TransactionService
-from app.schemas.transaction import (
-    TransactionCreate,
-    TransactionUpdate,
-    TransactionFilter,
-    BulkTransactionConfirm
-)
 from app.dependencies.auth import get_current_user
+from app.schemas.transaction import (
+    BulkTransactionConfirm,
+    TransactionCreate,
+    TransactionFilter,
+    TransactionUpdate,
+)
+from app.services.transaction_service import TransactionService
 
 router = APIRouter(tags=["Transactions"])
 service = TransactionService()
@@ -90,7 +90,6 @@ async def transaction_summary(
 @router.get("/")
 async def list_transactions(
     request: Request,
-    current_user=Depends(get_current_user),
     page: int = Query(1, ge=1),
     limit: int = Query(20, ge=1, le=100),
     from_date: Optional[datetime] = None,
@@ -99,6 +98,7 @@ async def list_transactions(
     type: Optional[str] = Query(None, pattern="^(income|expense)$"),
     min_amount: Optional[float] = None,
     max_amount: Optional[float] = None,
+    current_user=Depends(get_current_user),
 ):
     filters = TransactionFilter(
         from_date=from_date,

@@ -1,6 +1,7 @@
 from datetime import datetime
+from typing import Literal, Optional
+
 from pydantic import BaseModel, Field
-from typing import Optional, Literal
 
 
 class TransactionInDB(BaseModel):
@@ -18,7 +19,7 @@ class TransactionInDB(BaseModel):
     description: Optional[str] = None
 
     # Source metadata
-    source: str                      # manual | phonepe | pdf | recurring | bulk_confirmed
+    source: str  # manual | phonepe | pdf | recurring | bulk_confirmed
     import_id: Optional[str] = None
     is_recurring: bool = False
 

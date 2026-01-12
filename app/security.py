@@ -1,14 +1,13 @@
-from datetime import datetime, timedelta
-from typing import Optional
 import hashlib
 import secrets
+from datetime import datetime, timedelta
+from typing import Optional
 
 from fastapi import Response
 from jose import jwt
 from passlib.context import CryptContext
 
 from app.settings import settings
-
 
 # -------------------------------------------------
 # Password hashing (bcrypt-safe, production-grade)
@@ -36,9 +35,11 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     plain_password = plain_password[:72]
     return pwd_context.verify(_prehash(plain_password), hashed_password)
 
+
 # -------------------------------------------------
 # JWT handling
 # -------------------------------------------------
+
 
 def create_access_token(
     subject: str,
@@ -67,6 +68,7 @@ def create_access_token(
 # Password reset helpers
 # -------------------------------------------------
 
+
 def generate_reset_token() -> str:
     return secrets.token_urlsafe(32)
 
@@ -78,6 +80,7 @@ def hash_token(token: str) -> str:
 # -------------------------------------------------
 # Auth cookies
 # -------------------------------------------------
+
 
 def set_auth_cookies(
     response: Response,

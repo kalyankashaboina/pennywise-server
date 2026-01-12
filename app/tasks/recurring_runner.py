@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+
 from app.database import get_database
 from app.services.transaction_service import TransactionService
 from app.utils.logger import get_logger
@@ -10,10 +11,12 @@ async def run_recurring_transactions():
     db = get_database()
     service = TransactionService()
 
-    cursor = db.recurring.find({
-        "active": True,
-        "next_run_at": {"$lte": datetime.utcnow()},
-    })
+    cursor = db.recurring.find(
+        {
+            "active": True,
+            "next_run_at": {"$lte": datetime.utcnow()},
+        }
+    )
 
     async for r in cursor:
         logger.info("Running recurring transaction", extra={"id": str(r["_id"])})

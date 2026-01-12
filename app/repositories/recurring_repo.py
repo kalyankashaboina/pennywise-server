@@ -138,8 +138,7 @@ class RecurringRepository:
         total = await self.collection.count_documents(base_filter)
 
         cursor = (
-            self.collection
-            .find(base_filter)
+            self.collection.find(base_filter)
             .sort("created_at", -1)
             .skip(skip)
             .limit(limit)

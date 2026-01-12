@@ -1,10 +1,10 @@
 from fastapi import Request
 from jose import JWTError, jwt
 
-from app.settings import settings
 from app.errors.base import AppError
 from app.errors.codes import ErrorCode
 from app.repositories.user_repo import UserRepository
+from app.settings import settings
 from app.utils.logger import get_logger
 
 logger = get_logger("pennywise.auth")
@@ -40,7 +40,7 @@ async def get_current_user(request: Request):
             code=ErrorCode.UNAUTHORIZED,
             message="Invalid or expired token",
             status_code=401,
-        )
+        ) from e
 
     user = await user_repo.get_by_id(user_id)
     if not user:

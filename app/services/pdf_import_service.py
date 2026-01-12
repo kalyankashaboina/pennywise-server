@@ -1,12 +1,12 @@
-from datetime import datetime
 import re
+from datetime import datetime
 from typing import List
 
 from pypdf import PdfReader
 
-from app.utils.logger import get_logger
 from app.errors.base import AppError
 from app.errors.codes import ErrorCode
+from app.utils.logger import get_logger
 
 logger = get_logger("pennywise.pdf.phonepe")
 
@@ -31,13 +31,13 @@ class PhonePePdfParser:
     def _extract_text(self) -> str:
         try:
             reader = PdfReader(self.path)
-        except Exception:
+        except Exception as e:
             logger.exception("Failed to open PDF")
             raise AppError(
                 code=ErrorCode.VALIDATION_ERROR,
                 message="Invalid or corrupted PDF file",
                 status_code=400,
-            )
+            ) from e
 
         if reader.is_encrypted:
             logger.warning("Encrypted PDF detected")
@@ -131,7 +131,7 @@ class PhonePePdfParser:
         return {
             "date": date,
             "amount": amount,
-            "type": tx_type,          # income | expense
+            "type": tx_type,  # income | expense
             "description": line,
             "category": "phonepe",
             "source": "phonepe",

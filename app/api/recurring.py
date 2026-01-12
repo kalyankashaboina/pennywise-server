@@ -64,9 +64,9 @@ async def execute_recurring_now(
 async def get_recurring_transactions(
     recurring_id: str = Path(..., description="Recurring Transaction ID (24-char hex)"),
     request: Request = None,
-    current_user=Depends(get_current_user),
     page: int = Query(1, ge=1),
     limit: int = Query(20, ge=1, le=100),
+    current_user=Depends(get_current_user),
 ):
     """
     Fetch all transactions generated from a specific recurring rule.
@@ -160,13 +160,13 @@ async def delete_recurring(
 @router.get("/")
 async def list_recurring(
     request: Request,
-    current_user=Depends(get_current_user),
     page: int = Query(1, ge=1),
     limit: int = Query(20, ge=1, le=100),
     frequency: Optional[str] = Query(None, pattern="^(daily|weekly|monthly|yearly)$"),
     category: Optional[str] = None,
     type: Optional[str] = Query(None, pattern="^(income|expense)$"),
     active_only: bool = Query(True),
+    current_user=Depends(get_current_user),
 ):
     filters = RecurringTransactionFilter(
         frequency=frequency,
@@ -192,4 +192,3 @@ async def list_recurring(
         "pages": (result["total"] + limit - 1) // limit,
         "data": result["items"],
     }
-

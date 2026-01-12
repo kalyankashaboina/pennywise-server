@@ -1,6 +1,7 @@
 from datetime import datetime
+from typing import Literal, Optional
+
 from pydantic import BaseModel, Field
-from typing import Optional, Literal, List
 
 
 class RecurringTransactionCreate(BaseModel):
@@ -10,7 +11,9 @@ class RecurringTransactionCreate(BaseModel):
     description: str
     frequency: Literal["daily", "weekly", "monthly", "yearly"]
     next_run_at: datetime
-    parent_recurring_id: Optional[str] = None  # For linking recursive recurring transactions
+    parent_recurring_id: Optional[str] = (
+        None  # For linking recursive recurring transactions
+    )
 
 
 class RecurringTransactionUpdate(BaseModel):

@@ -1,9 +1,8 @@
 from pathlib import Path
 
-from app.services.report_service import ReportService
-
-from app.services.transaction_service import TransactionService
 from app.services.audit_service import AuditService
+from app.services.report_service import ReportService
+from app.services.transaction_service import TransactionService
 from app.utils.logger import get_logger
 
 logger = get_logger("pennywise.tasks.reports")
@@ -35,10 +34,7 @@ class ReportTasks:
             )
 
             Path(output_dir).mkdir(parents=True, exist_ok=True)
-            output_path = (
-                Path(output_dir)
-                / f"pennywise-{user_id}-{month}.pdf"
-            )
+            output_path = Path(output_dir) / f"pennywise-{user_id}-{month}.pdf"
 
             # ✅ FIXED - Now using async method
             await self.report_service.generate_transaction_report(

@@ -1,6 +1,7 @@
 from datetime import datetime
+from typing import List, Literal, Optional
+
 from pydantic import BaseModel, Field
-from typing import Optional, Literal,List
 
 
 class TransactionCreate(BaseModel):

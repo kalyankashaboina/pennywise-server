@@ -2,12 +2,12 @@ from datetime import datetime
 from typing import List, Optional
 from uuid import uuid4
 
+from app.errors.base import AppError
+from app.errors.codes import ErrorCode
 from app.repositories.transaction_repo import TransactionRepository
 from app.schemas.transaction import TransactionFilter
 from app.services.audit_service import AuditService
 from app.utils.logger import get_logger
-from app.errors.base import AppError
-from app.errors.codes import ErrorCode
 
 logger = get_logger("pennywise.transactions")
 
@@ -150,12 +150,11 @@ class TransactionService:
                 query["amount"]["$lte"] = filters.max_amount
 
         results, total = await self.repo.list(
-    user_id=user_id,
-    query=query,
-    page=page,
-    limit=limit,
-)
-
+            user_id=user_id,
+            query=query,
+            page=page,
+            limit=limit,
+        )
 
         await self.audit.log(
             action="TRANSACTION_LIST_VIEWED",
@@ -171,15 +170,13 @@ class TransactionService:
         )
 
         return {
-    "items": results,
-    "total": total,
-}
-
-    
+            "items": results,
+            "total": total,
+        }
 
     # -------------------------------------------------
-# Get transaction by ID
-# -------------------------------------------------
+    # Get transaction by ID
+    # -------------------------------------------------
     async def get_by_id(
         self,
         *,
@@ -208,7 +205,6 @@ class TransactionService:
         )
 
         return tx
-
 
     # -------------------------------------------------
     # CONFIRM bulk import (after FE confirmation)
@@ -260,12 +256,12 @@ class TransactionService:
     ):
         """
         Get all transactions for a specific month.
-        
+
         Args:
             user_id: The user's ID
             month: Month in YYYY-MM format
             request: Optional request object for audit logging
-            
+
         Returns:
             List of TransactionInDB objects for the given month
         """

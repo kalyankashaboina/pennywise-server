@@ -11,9 +11,7 @@ class RecurringTransactionInDB(BaseModel):
     type: Literal["income", "expense"]
     category: str
     description: str
-    frequency: Literal[
-        "daily", "weekly", "monthly", "yearly"
-    ]
+    frequency: Literal["daily", "weekly", "monthly", "yearly"]
     next_run_at: datetime
     active: bool = True
     parent_recurring_id: Optional[str] = None  # For recursive recurring transactions

@@ -73,7 +73,12 @@ class ReportService:
             await page.pdf(
                 path=output_path,
                 format="A4",
-                margin={"top":"20px","bottom": "20px", "left": "20px", "right": "20px"},
+                margin={
+                    "top": "20px",
+                    "bottom": "20px",
+                    "left": "20px",
+                    "right": "20px",
+                },
             )
             await browser.close()
 
@@ -97,12 +102,8 @@ class ReportService:
         period_label: str,
         transactions: list[dict],
     ) -> str:
-        income_total = sum(
-            t["amount"] for t in transactions if t["type"] == "income"
-        )
-        expense_total = sum(
-            t["amount"] for t in transactions if t["type"] == "expense"
-        )
+        income_total = sum(t["amount"] for t in transactions if t["type"] == "income")
+        expense_total = sum(t["amount"] for t in transactions if t["type"] == "expense")
         net = income_total - expense_total
 
         rows_html = "".join(self._render_row(t) for t in transactions)

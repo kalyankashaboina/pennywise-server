@@ -7,5 +7,5 @@ router = APIRouter()
 
 
 @router.get("/me", response_model=UserPublic)
-async def me(current_user=Depends(get_current_user)):
+async def me(current_user=Depends(get_current_user)):  # noqa: B008
     return current_user

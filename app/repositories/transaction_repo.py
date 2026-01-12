@@ -1,11 +1,12 @@
 from datetime import datetime
-from bson import ObjectId
 from typing import List, Optional
 
+from bson import ObjectId
+
 from app.database import get_database
-from app.models.transaction import TransactionInDB
 from app.errors.base import AppError
 from app.errors.codes import ErrorCode
+from app.models.transaction import TransactionInDB
 
 
 class TransactionRepository:
@@ -21,14 +22,13 @@ class TransactionRepository:
         payload: dict,
     ) -> TransactionInDB:
         doc = {
-    **payload,
-    "user_id": user_id,
-    "is_deleted": False,
-    "deleted_at": None,
-    "created_at": datetime.utcnow(),
-    "updated_at": datetime.utcnow(),
-}
-
+            **payload,
+            "user_id": user_id,
+            "is_deleted": False,
+            "deleted_at": None,
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow(),
+        }
 
         result = await self.collection.insert_one(doc)
         doc["_id"] = str(result.inserted_id)
@@ -54,15 +54,14 @@ class TransactionRepository:
         for payload in transactions:
             docs.append(
                 {
-    **payload,
-    "user_id": user_id,
-    "import_id": import_id,
-    "is_deleted": False,
-    "deleted_at": None,
-    "created_at": now,
-    "updated_at": now,
-}
-
+                    **payload,
+                    "user_id": user_id,
+                    "import_id": import_id,
+                    "is_deleted": False,
+                    "deleted_at": None,
+                    "created_at": now,
+                    "updated_at": now,
+                }
             )
 
         result = await self.collection.insert_many(docs)
@@ -85,11 +84,10 @@ class TransactionRepository:
 
         doc = await self.collection.find_one_and_update(
             {
-    "_id": ObjectId(transaction_id),
-    "user_id": user_id,
-    "is_deleted": False,
-}
-,
+                "_id": ObjectId(transaction_id),
+                "user_id": user_id,
+                "is_deleted": False,
+            },
             {"$set": payload},
             return_document=True,
         )
@@ -125,10 +123,9 @@ class TransactionRepository:
 
         return result.modified_count == 1
 
-
-# -------------------------------------------------
-# Get by ID
-# -------------------------------------------------
+    # -------------------------------------------------
+    # Get by ID
+    # -------------------------------------------------
     async def get_by_id(
         self,
         *,
@@ -162,20 +159,15 @@ class TransactionRepository:
         skip = (page - 1) * limit
 
         base_filter = {
-    "user_id": user_id,
-    "is_deleted": False,
-    **query,
-}
-
+            "user_id": user_id,
+            "is_deleted": False,
+            **query,
+        }
 
         total = await self.collection.count_documents(base_filter)
 
         cursor = (
-            self.collection
-            .find(base_filter)
-            .sort("date", -1)
-            .skip(skip)
-            .limit(limit)
+            self.collection.find(base_filter).sort("date", -1).skip(skip).limit(limit)
         )
 
         results: list[TransactionInDB] = []
@@ -197,29 +189,25 @@ class TransactionRepository:
     ) -> List[TransactionInDB]:
         try:
             start = datetime.strptime(month, "%Y-%m")
-        except ValueError:
+        except ValueError as e:
             raise AppError(
                 code=ErrorCode.VALIDATION_ERROR,
                 message="Invalid month format. Expected YYYY-MM",
                 status_code=400,
-            )
+            ) from e
 
         if start.month == 12:
             end = start.replace(year=start.year + 1, month=1)
         else:
             end = start.replace(month=start.month + 1)
 
-        cursor = (
-            self.collection
-            .find(
-                {
-                    "user_id": user_id,
-                    "is_deleted": False,
-                    "date": {"$gte": start, "$lt": end},
-                }
-            )
-            .sort("date", 1)
-        )
+        cursor = self.collection.find(
+            {
+                "user_id": user_id,
+                "is_deleted": False,
+                "date": {"$gte": start, "$lt": end},
+            }
+        ).sort("date", 1)
 
         results = []
         async for doc in cursor:

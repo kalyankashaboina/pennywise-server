@@ -376,4 +376,3 @@ class RecurringService:
             "items": results,
             "total": total,
         }
-
