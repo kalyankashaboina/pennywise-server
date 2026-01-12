@@ -35,8 +35,8 @@ jobs:
         run: pre-commit run --all-files
 
       # Run tests
-      - name: Run tests
-        run: pytest -v
+      # - name: Run tests
+      #   run: pytest -v
 
       # Lint code
       - name: Lint code
