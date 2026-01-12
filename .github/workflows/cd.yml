@@ -2,7 +2,7 @@ name: CD Pipeline
 
 on:
   workflow_run:
-    workflows: ["CI Pipeline"]  # Trigger only after CI finishes
+    workflows: ["CI Pipeline"]
     types:
       - completed
 
@@ -10,38 +10,24 @@ jobs:
   deploy:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
-    env:
-      DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-      DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-      # RENDER_WEBHOOK_URL: ${{ secrets.RENDER_WEBHOOK_URL }}
 
     steps:
-      # 1️⃣ Checkout code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2️⃣ Docker login
       - name: Docker login
         uses: docker/login-action@v2
         with:
-          username: ${{ env.DOCKER_HUB_USERNAME }}
-          password: ${{ env.DOCKER_HUB_PASSWORD }}
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
-      # 3️⃣ Build and push Docker image
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
           context: .
           file: Docker
           push: true
-          tags: ${{ env.DOCKER_HUB_USERNAME }}/pennywise:latest
-          cache-from: type=registry,ref=${{ env.DOCKER_HUB_USERNAME }}/pennywise:latest
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/pennywise-server:latest
+          cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/pennywise-server:latest
           cache-to: type=inline
-
-      # 4️⃣ Trigger Render deploy (optional)
-    #   - name: Trigger Render deploy
-    #     if: ${{ success() }}
-    #     uses: fjogeleit/http-request-action@v1
-    #     with:
-    #       url: ${{ env.RENDER_WEBHOOK_URL }}
-    #       method: POST
