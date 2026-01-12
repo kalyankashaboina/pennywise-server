@@ -1,9 +1,12 @@
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 
 from app.settings import settings
 from app.utils.logger import get_logger
+
+if TYPE_CHECKING:
+    from motor.motor_asyncio import AsyncIOMotorCollection
 
 logger = get_logger("pennywise.db")
 
@@ -72,7 +75,7 @@ async def create_indexes() -> None:
 
     # Helper to safely create an index
     async def safe_create_index(
-        collection: "AsyncIOMotorDatabase",
+        collection: "AsyncIOMotorCollection[dict]",
         keys: list[tuple[str, int]],
         name: str,
         unique: bool = False,

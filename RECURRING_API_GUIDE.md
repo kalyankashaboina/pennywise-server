@@ -5,7 +5,7 @@
 All endpoints are accessible at: `/api/recurring` (based on router prefix configuration)
 
 ### 1. **POST** - Create Recurring Transaction
-**Endpoint:** `POST /api/recurring/`  
+**Endpoint:** `POST /api/recurring/`
 **Status Code:** 201
 
 **Request Body:**
@@ -46,7 +46,7 @@ All endpoints are accessible at: `/api/recurring` (based on router prefix config
 ---
 
 ### 2. **GET** - List Recurring Transactions
-**Endpoint:** `GET /api/recurring/?page=1&limit=20`  
+**Endpoint:** `GET /api/recurring/?page=1&limit=20`
 **Status Code:** 200
 
 **Query Parameters:**
@@ -89,7 +89,7 @@ All endpoints are accessible at: `/api/recurring` (based on router prefix config
 ---
 
 ### 3. **GET** - Get Recurring Transaction by ID
-**Endpoint:** `GET /api/recurring/{recurring_id}`  
+**Endpoint:** `GET /api/recurring/{recurring_id}`
 **Status Code:** 200
 
 **Path Parameters:**
@@ -120,7 +120,7 @@ All endpoints are accessible at: `/api/recurring` (based on router prefix config
 ---
 
 ### 4. **PUT** - Update Recurring Transaction
-**Endpoint:** `PUT /api/recurring/{recurring_id}`  
+**Endpoint:** `PUT /api/recurring/{recurring_id}`
 **Status Code:** 200
 
 **Path Parameters:**
@@ -164,7 +164,7 @@ All endpoints are accessible at: `/api/recurring` (based on router prefix config
 ---
 
 ### 5. **DELETE** - Delete (Deactivate) Recurring Transaction
-**Endpoint:** `DELETE /api/recurring/{recurring_id}`  
+**Endpoint:** `DELETE /api/recurring/{recurring_id}`
 **Status Code:** 200
 
 **Path Parameters:**
@@ -180,7 +180,7 @@ All endpoints are accessible at: `/api/recurring` (based on router prefix config
 ---
 
 ### 6. **POST** - Execute Recurring Transaction NOW (Real-Time Testing)
-**Endpoint:** `POST /api/recurring/{recurring_id}/execute-now`  
+**Endpoint:** `POST /api/recurring/{recurring_id}/execute-now`
 **Status Code:** 200
 
 **Path Parameters:**
@@ -199,7 +199,7 @@ All endpoints are accessible at: `/api/recurring` (based on router prefix config
 ---
 
 ### 7. **GET** - Get Generated Transactions from Recurring Rule
-**Endpoint:** `GET /api/recurring/{recurring_id}/transactions`  
+**Endpoint:** `GET /api/recurring/{recurring_id}/transactions`
 **Status Code:** 200
 
 **Path Parameters:**
@@ -304,14 +304,14 @@ curl -X GET "http://localhost:8000/api/recurring/rec1/transactions?page=1&limit=
 
 ## Key Features Implemented
 
-✅ **Recurring Transaction Logic**: Full CRUD operations with recursive support  
-✅ **Pagination & Filtering**: List endpoint supports pagination and filters by frequency, category, type  
-✅ **Get by ID**: Fetch specific recurring transaction by ID  
-✅ **Real-Time Testing**: `/execute-now` endpoint for immediate testing  
-✅ **Transaction Traceability**: `/transactions` endpoint to view all generated transactions  
-✅ **Frequency Support**: daily, weekly, monthly, yearly  
-✅ **Status Tracking**: Track last execution time and active status  
-✅ **Mock Data**: 8 mock recurring transactions for testing  
+✅ **Recurring Transaction Logic**: Full CRUD operations with recursive support
+✅ **Pagination & Filtering**: List endpoint supports pagination and filters by frequency, category, type
+✅ **Get by ID**: Fetch specific recurring transaction by ID
+✅ **Real-Time Testing**: `/execute-now` endpoint for immediate testing
+✅ **Transaction Traceability**: `/transactions` endpoint to view all generated transactions
+✅ **Frequency Support**: daily, weekly, monthly, yearly
+✅ **Status Tracking**: Track last execution time and active status
+✅ **Mock Data**: 8 mock recurring transactions for testing
 
 ---
 
